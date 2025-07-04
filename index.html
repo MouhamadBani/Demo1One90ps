@@ -71,6 +71,7 @@
 
         /* Landing Page */
         .landing-page {
+    margin-top: 70px;
             height: 100vh;
             display: flex;
             align-items: center;
@@ -120,6 +121,76 @@
             margin-bottom: 3rem;
         }
 
+        /* Auth Controls */
+        .auth-controls {
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            z-index: 100;
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .auth-btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+            background: var(--glass-bg);
+            color: var(--accent-cyan);
+            border: 1px solid rgba(0, 255, 213, 0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        .auth-btn:hover {
+            background: rgba(0, 255, 213, 0.1);
+            border-color: rgba(0, 255, 213, 0.5);
+            transform: translateY(-2px);
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.5rem 1rem;
+            background: var(--glass-bg);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-green), var(--primary-gold));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 1.2rem;
+        }
+
+        .user-details {
+            text-align: left;
+        }
+
+        .user-name {
+            font-weight: 600;
+            color: var(--text-primary);
+            font-size: 0.9rem;
+        }
+
+        .user-role {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            text-transform: capitalize;
+        }
+
         .module-buttons {
             display: flex;
             gap: 2rem;
@@ -144,7 +215,7 @@
             backdrop-filter: blur(10px);
         }
 
-        .module-btn:hover {
+        .module-btn:hover:not(.disabled) {
             transform: translateY(-4px);
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
         }
@@ -155,6 +226,20 @@
 
         .module-btn.agri {
             background: linear-gradient(135deg, var(--primary-green), var(--accent-cyan));
+        }
+
+        .module-btn.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            filter: grayscale(50%);
+        }
+
+        .module-btn.disabled::after {
+            content: '🔒';
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            font-size: 1.2rem;
         }
 
         /* Dashboard Layout */
@@ -207,7 +292,7 @@
             cursor: pointer;
         }
 
-        .nav-item:hover {
+        .nav-item:hover:not(.locked) {
             color: var(--text-primary);
             background: rgba(255, 255, 255, 0.03);
         }
@@ -238,6 +323,12 @@
             cursor: not-allowed;
         }
 
+        .nav-item.locked {
+            opacity: 0.4;
+            cursor: not-allowed;
+            color: var(--text-muted);
+        }
+
         .nav-badge {
             margin-left: auto;
             padding: 0.25rem 0.5rem;
@@ -246,6 +337,12 @@
             border-radius: 12px;
             font-size: 0.75rem;
             font-weight: 600;
+        }
+
+        .nav-badge.locked {
+            background: var(--glass-bg);
+            color: var(--text-muted);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         /* Main Content */
@@ -257,6 +354,7 @@
         }
 
         .content-header {
+    margin-top: 70px;
             padding: 2rem 3rem;
             border-bottom: 1px solid rgba(255, 255, 255, 0.08);
             display: flex;
@@ -486,6 +584,7 @@
         }
 
         .modal-content {
+    margin-top: 70px;
             background: var(--darker-bg);
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 20px;
@@ -554,6 +653,21 @@
             background: rgba(255, 255, 255, 0.08);
         }
 
+        .form-input[type="password"] {
+            letter-spacing: 2px;
+        }
+
+        .form-error {
+            color: var(--danger);
+            font-size: 0.85rem;
+            margin-top: 0.5rem;
+            display: none;
+        }
+
+        .form-error.show {
+            display: block;
+        }
+
         /* Map Container */
         .map-container {
             background: var(--card-bg);
@@ -604,6 +718,7 @@
             }
             
             .content-header {
+    margin-top: 70px;
                 padding: 1rem 1.5rem;
                 padding-left: 4rem;
             }
@@ -619,6 +734,11 @@
             .module-buttons {
                 flex-direction: column;
                 align-items: center;
+            }
+
+            .auth-controls {
+                top: 1rem;
+                right: 1rem;
             }
         }
 
@@ -679,10 +799,123 @@
             border-color: var(--danger);
             background: rgba(244, 67, 54, 0.1);
         }
-    </style>
+
+        .notification.warning {
+            border-color: var(--warning);
+            background: rgba(255, 152, 0, 0.1);
+        }
+    
+/* === Added Animations === */
+@keyframes fadeSlide {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadePop {
+  0% { opacity: 0; transform: scale(0.95) translateY(-10px); }
+  100% { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+@keyframes slideInRight {
+  from { transform: translateX(400px); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+.module-label-animate {
+  animation: fadeSlide 0.4s ease-out;
+}
+
+.modal-content.animated {
+  animation: fadePop 0.4s ease-out;
+}
+
+.notification.show {
+  animation: slideInRight 0.4s ease-out;
+}
+.main-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 70px;
+  background: rgba(10, 11, 13, 0.95);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  z-index: 2000;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 3rem;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 0 10px rgba(0, 255, 213, 0.05);
+}
+
+.header-logo {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 2rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, var(--accent-cyan), var(--primary-gold));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin: 0;
+  cursor: pointer;
+  letter-spacing: -0.5px;
+  transition: transform 0.3s ease, text-shadow 0.3s ease;
+}
+
+.header-logo:hover {
+  transform: scale(1.05);
+  text-shadow: 0 0 12px var(--accent-cyan), 0 0 18px var(--primary-gold);
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.header-module {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  margin-top: 0.2rem;
+}
+
+.header-auth {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+
+</style>
 </head>
 <body>
-    <!-- Landing Page -->
+    <!-- Auth Controls (shown on all pages) -->
+    
+<header class="main-header">
+  <div class="header-left">
+    <h1 class="header-logo" onclick="backToHome()">One90ps</h1>
+    <span class="header-module" id="current-module-label">Your Smart ERP</span>
+  </div>
+  <div class="header-auth" id="header-auth">
+    <button class="auth-btn" id="login-btn" onclick="showLoginModal()">
+      <i class="fas fa-sign-in-alt"></i> Login
+    </button>
+    <div class="user-info" id="user-info" style="display: none;">
+      <div class="user-avatar" id="user-avatar">U</div>
+      <div class="user-details">
+        <div class="user-name" id="user-name">Username</div>
+        <div class="user-role" id="user-role">Role</div>
+      </div>
+      <button class="auth-btn" onclick="logout()">
+        <i class="fas fa-sign-out-alt"></i> Logout
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- Landing Page -->
+
     <div id="landing" class="page active">
         <div class="landing-page">
             <canvas id="hero-canvas"></canvas>
@@ -691,11 +924,11 @@
                     <h1 class="logo">One90ps</h1>
                     <p class="tagline">Your Smart ERP for Health and Agriculture</p>
                 </div>
-                <div class="module-buttons">
-                    <button class="module-btn health" onclick="loadModule('health')">
+                <div class="module-buttons" id="module-buttons">
+                    <button class="module-btn health disabled" onclick="attemptLoadModule('health')">
                         <i class="fas fa-heartbeat"></i> Enter One90ps Health
                     </button>
-                    <button class="module-btn agri" onclick="loadModule('agri')">
+                    <button class="module-btn agri disabled" onclick="attemptLoadModule('agri')">
                         <i class="fas fa-seedling"></i> Enter One90ps Agri
                     </button>
                 </div>
@@ -716,7 +949,7 @@
                 <div class="sidebar-header">
                     <div class="sidebar-logo">One90ps Health</div>
                 </div>
-                <nav class="sidebar-nav">
+                <nav class="sidebar-nav" id="health-nav">
                     <a class="nav-item active" onclick="navigateHealth('dashboard')">
                         <i class="fas fa-chart-line"></i> Dashboard
                     </a>
@@ -748,8 +981,8 @@
 
             <!-- Main Content -->
             <main class="main-content">
-                <div class="content-header">
-                    <h1 class="page-title">Healthcare Dashboard</h1>
+                <div class="module-toolbar" id="module-toolbar" style="margin-top: 70px; padding: 1rem 3rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.08); backdrop-filter: blur(10px); background: rgba(10, 11, 13, 0.95); position: sticky; top: 70px; z-index: 900;">
+                    <h2 id="module-page-title" class="page-title">Healthcare Dashboard</h2>
                     <div class="header-actions">
                         <button class="btn btn-secondary">
                             <i class="fas fa-download"></i> Export Report
@@ -763,19 +996,6 @@
                 <div class="content-container">
                     <!-- KPI Cards -->
                     <div class="kpi-grid">
-                        <div class="kpi-card">
-                            <div class="kpi-header">
-                                <span class="kpi-title">Total Patients</span>
-                                <div class="kpi-icon info">
-                                    <i class="fas fa-users"></i>
-                                </div>
-                            </div>
-                            <div class="kpi-value" id="total-patients">156</div>
-                            <div class="kpi-change positive">
-                                <i class="fas fa-arrow-up"></i> +12% from last month
-                            </div>
-                        </div>
-
                         <div class="kpi-card">
                             <div class="kpi-header">
                                 <span class="kpi-title">Bed Occupancy</span>
@@ -856,7 +1076,85 @@
                         <div id="map"></div>
                     </div>
                 </div>
-            </main>
+            
+<!-- Patient Profile Modal -->
+<div id="patient-profile-modal" class="modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2 class="modal-title">Patient Profile</h2>
+      <button class="modal-close" onclick="closeModal('patient-profile-modal')">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <div id="patient-profile-details" style="color: var(--text-secondary); line-height: 1.8;"></div>
+  </div>
+</div>
+
+<!-- Appointment Scheduler Placeholder -->
+<div class="data-section">
+  <div class="section-header">
+    <h2 class="section-title">Appointment Scheduler</h2>
+    <button class="btn btn-secondary">Manage Schedule</button>
+  </div>
+  <p style="color: var(--text-muted);">Calendar-style appointment scheduling interface coming soon...</p>
+</div>
+
+<!-- Staff Shift Management -->
+<div class="data-section">
+  <div class="section-header">
+    <h2 class="section-title">Staff Shifts</h2>
+    <button class="btn btn-secondary">Assign Shifts</button>
+  </div>
+  <p style="color: var(--text-muted);">Day/Night shift planning and allocation tool coming soon...</p>
+</div>
+
+<!-- Billing Section -->
+<div class="data-section">
+  <div class="section-header">
+    <h2 class="section-title">Patient Billing</h2>
+    <button class="btn btn-secondary">Manage Billing</button>
+  </div>
+  <p style="color: var(--text-muted);">Invoices and payment tracking system coming soon...</p>
+</div>
+
+
+<!-- Field Growth Tracker -->
+<div class="data-section">
+  <div class="section-header">
+    <h2 class="section-title">Field Growth Tracker</h2>
+    <button class="btn btn-secondary">Track Progress</button>
+  </div>
+  <p style="color: var(--text-muted);">Timeline-based progress view of crop stages coming soon...</p>
+</div>
+
+<!-- Warehouse Alerts -->
+<div class="data-section">
+  <div class="section-header">
+    <h2 class="section-title">Stock Alerts</h2>
+    <button class="btn btn-secondary">Configure Alerts</button>
+  </div>
+  <p style="color: var(--text-muted);">Automatic alert system for low stock and expiry detection coming soon...</p>
+</div>
+
+<!-- Worker Task Assignment -->
+<div class="data-section">
+  <div class="section-header">
+    <h2 class="section-title">Worker Task Assignments</h2>
+    <button class="btn btn-secondary">Assign Tasks</button>
+  </div>
+  <p style="color: var(--text-muted);">Schedule daily and seasonal worker assignments here...</p>
+</div>
+
+<!-- Billing Section -->
+<div class="data-section">
+  <div class="section-header">
+    <h2 class="section-title">Agricultural Billing</h2>
+    <button class="btn btn-secondary">Manage Payments</button>
+  </div>
+  <p style="color: var(--text-muted);">Service and logistics billing module coming soon...</p>
+</div>
+
+</main>
         </div>
     </div>
 
@@ -873,7 +1171,7 @@
                 <div class="sidebar-header">
                     <div class="sidebar-logo">One90ps Agri</div>
                 </div>
-                <nav class="sidebar-nav">
+                <nav class="sidebar-nav" id="agri-nav">
                     <a class="nav-item active" onclick="navigateAgri('dashboard')">
                         <i class="fas fa-chart-line"></i> Dashboard
                     </a>
@@ -905,8 +1203,8 @@
 
             <!-- Main Content -->
             <main class="main-content">
-                <div class="content-header">
-                    <h1 class="page-title">Agriculture Dashboard</h1>
+                <div class="module-toolbar" id="module-toolbar" style="margin-top: 70px; padding: 1rem 3rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.08); backdrop-filter: blur(10px); background: rgba(10, 11, 13, 0.95); position: sticky; top: 70px; z-index: 900;">
+                    <h2 id="module-page-title" class="page-title">Agriculture Dashboard</h2>
                     <div class="header-actions">
                         <button class="btn btn-secondary">
                             <i class="fas fa-download"></i> Export Report
@@ -1033,11 +1331,88 @@
                         <div id="farm-map"></div>
                     </div>
                 </div>
-            </main>
+            
+<!-- Patient Profile Modal -->
+<div id="patient-profile-modal" class="modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2 class="modal-title">Patient Profile</h2>
+      <button class="modal-close" onclick="closeModal('patient-profile-modal')">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <div id="patient-profile-details" style="color: var(--text-secondary); line-height: 1.8;"></div>
+  </div>
+</div>
+
+<!-- Appointment Scheduler Placeholder -->
+<div class="data-section">
+  <div class="section-header">
+    <h2 class="section-title">Appointment Scheduler</h2>
+    <button class="btn btn-secondary">Manage Schedule</button>
+  </div>
+  <p style="color: var(--text-muted);">Calendar-style appointment scheduling interface coming soon...</p>
+</div>
+
+<!-- Staff Shift Management -->
+<div class="data-section">
+  <div class="section-header">
+    <h2 class="section-title">Staff Shifts</h2>
+    <button class="btn btn-secondary">Assign Shifts</button>
+  </div>
+  <p style="color: var(--text-muted);">Day/Night shift planning and allocation tool coming soon...</p>
+</div>
+
+<!-- Billing Section -->
+<div class="data-section">
+  <div class="section-header">
+    <h2 class="section-title">Patient Billing</h2>
+    <button class="btn btn-secondary">Manage Billing</button>
+  </div>
+  <p style="color: var(--text-muted);">Invoices and payment tracking system coming soon...</p>
+</div>
+
+</main>
         </div>
     </div>
 
     <!-- Modals -->
+    <!-- Login Modal -->
+    <div id="login-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">
+                    <i class="fas fa-lock" style="color: var(--accent-cyan); margin-right: 0.5rem;"></i>
+                    Login to One90ps
+                </h2>
+                <button class="modal-close" onclick="closeModal('login-modal')">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label class="form-label">Username</label>
+                    <input type="text" class="form-input" id="login-username" required placeholder="Enter your username">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Password</label>
+                    <input type="password" class="form-input" id="login-password" required placeholder="Enter your password">
+                    <div class="form-error" id="login-error">Invalid username or password</div>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">
+                    <i class="fas fa-sign-in-alt"></i> Login
+                </button>
+                <div style="margin-top: 1rem; text-align: center; color: var(--text-secondary); font-size: 0.85rem;">
+                    <p>Demo Accounts:</p>
+                    <p style="font-family: monospace; margin-top: 0.5rem;">
+                        admin/admin123 | nurse/nurse456<br>
+                        farmer/farm789 | manager/manager001
+                    </p>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <!-- Add Patient Modal -->
     <div id="add-patient-modal" class="modal">
         <div class="modal-content">
@@ -1127,6 +1502,41 @@
     </div>
 
     <script>
+        // User Authentication System
+        const users = {
+            admin: { 
+                password: 'admin123', 
+                role: 'director', 
+                modules: ['health', 'agri'],
+                displayName: 'Admin User',
+                permissions: ['all']
+            },
+            nurse: { 
+                password: 'nurse456', 
+                role: 'staff', 
+                modules: ['health'],
+                displayName: 'Nurse Sarah',
+                permissions: ['patients', 'appointments', 'inventory']
+            },
+            farmer: { 
+                password: 'farm789', 
+                role: 'employee', 
+                modules: ['agri'],
+                displayName: 'Farmer John',
+                permissions: ['fields', 'crops', 'inventory']
+            },
+            manager: { 
+                password: 'manager001', 
+                role: 'manager', 
+                modules: ['health', 'agri'],
+                displayName: 'Manager Mike',
+                permissions: ['dashboard', 'reports', 'staff']
+            }
+        };
+
+        // Current logged-in user
+        let currentUser = null;
+
         // Mock Data Storage
         const mockData = {
             patients: [
@@ -1214,6 +1624,107 @@
             renderer.render(scene, camera);
         }
 
+        // Authentication Functions
+        function showLoginModal() {
+            document.getElementById('login-modal').classList.add('active');
+            document.getElementById('login-username').focus();
+        }
+
+        function handleLogin(event) {
+            event.preventDefault();
+            
+            const username = document.getElementById('login-username').value;
+            const password = document.getElementById('login-password').value;
+            const errorElement = document.getElementById('login-error');
+            
+            // Check credentials
+            if (users[username] && users[username].password === password) {
+                // Successful login
+                currentUser = {
+                    username: username,
+                    ...users[username]
+                };
+                
+                // Update UI
+                updateAuthUI();
+                closeModal('login-modal');
+                showNotification(`Welcome back, ${currentUser.displayName}!`, 'success');
+                
+                // Clear form
+                event.target.reset();
+                errorElement.classList.remove('show');
+            } else {
+                // Failed login
+                errorElement.classList.add('show');
+                document.getElementById('login-password').value = '';
+            }
+        }
+
+        function logout() {
+            currentUser = null;
+            updateAuthUI();
+            backToHome();
+            showNotification('You have been logged out successfully', 'success');
+        }
+
+        function updateAuthUI() {
+            const loginBtn = document.getElementById('login-btn');
+            const userInfo = document.getElementById('user-info');
+            const moduleButtons = document.querySelectorAll('.module-btn');
+            
+            if (currentUser) {
+                // User is logged in
+                loginBtn.style.display = 'none';
+                userInfo.style.display = 'flex';
+                
+                // Update user info display
+                document.getElementById('user-avatar').textContent = currentUser.displayName.charAt(0).toUpperCase();
+                document.getElementById('user-name').textContent = currentUser.displayName;
+                document.getElementById('user-role').textContent = currentUser.role;
+                
+                // Enable/disable module buttons based on permissions
+                moduleButtons.forEach(btn => {
+                    if (btn.classList.contains('health')) {
+                        if (currentUser.modules.includes('health')) {
+                            btn.classList.remove('disabled');
+                        } else {
+                            btn.classList.add('disabled');
+                        }
+                    } else if (btn.classList.contains('agri')) {
+                        if (currentUser.modules.includes('agri')) {
+                            btn.classList.remove('disabled');
+                        } else {
+                            btn.classList.add('disabled');
+                        }
+                    }
+                });
+            } else {
+                // User is logged out
+                loginBtn.style.display = 'block';
+                userInfo.style.display = 'none';
+                
+                // Disable all module buttons
+                moduleButtons.forEach(btn => {
+                    btn.classList.add('disabled');
+                });
+            }
+        }
+
+        function attemptLoadModule(module) {
+            if (!currentUser) {
+                showNotification('Please login to access this module', 'warning');
+                showLoginModal();
+                return;
+            }
+            
+            if (!currentUser.modules.includes(module)) {
+                showNotification(`Access Denied: You don't have permission to view the ${module} module.`, 'error');
+                return;
+            }
+            
+            loadModule(module);
+        }
+
         // Page Navigation
         function loadModule(module) {
             document.getElementById('landing').classList.remove('active');
@@ -1221,10 +1732,63 @@
             if (module === 'health') {
                 document.getElementById('health-module').classList.add('active');
                 initHealthModule();
+                updateHealthPermissions();
             } else if (module === 'agri') {
                 document.getElementById('agri-module').classList.add('active');
                 initAgriModule();
+                updateAgriPermissions();
             }
+        }
+
+        function updateHealthPermissions() {
+            const navItems = document.querySelectorAll('#health-nav .nav-item');
+            
+            navItems.forEach(item => {
+                const text = item.textContent.toLowerCase();
+                
+                // Lock items based on role
+                if (currentUser.role === 'staff') {
+                    // Staff can't access billing and analytics
+                    if (text.includes('billing') || text.includes('analytics')) {
+                        item.classList.add('locked');
+                        if (!item.querySelector('.nav-badge.locked')) {
+                            const badge = item.querySelector('.nav-badge');
+                            if (badge) {
+                                badge.textContent = '🔒 Locked';
+                                badge.classList.add('locked');
+                            }
+                        }
+                    }
+                    // Staff management only for managers and directors
+                    if (text.includes('staff management')) {
+                        item.classList.add('locked');
+                        item.innerHTML += '<span class="nav-badge locked">🔒 Locked</span>';
+                    }
+                }
+            });
+        }
+
+        function updateAgriPermissions() {
+            const navItems = document.querySelectorAll('#agri-nav .nav-item');
+            
+            navItems.forEach(item => {
+                const text = item.textContent.toLowerCase();
+                
+                // Lock items based on role
+                if (currentUser.role === 'employee') {
+                    // Employees can't access analytics
+                    if (text.includes('analytics')) {
+                        item.classList.add('locked');
+                        if (!item.querySelector('.nav-badge.locked')) {
+                            const badge = item.querySelector('.nav-badge');
+                            if (badge) {
+                                badge.textContent = '🔒 Locked';
+                                badge.classList.add('locked');
+                            }
+                        }
+                    }
+                }
+            });
         }
 
         function backToHome() {
@@ -1242,10 +1806,18 @@
 
         // Modal Functions
         function showAddPatientModal() {
+            if (!currentUser || !currentUser.modules.includes('health')) {
+                showNotification('You do not have permission to add patients', 'error');
+                return;
+            }
             document.getElementById('add-patient-modal').classList.add('active');
         }
 
         function showAddFieldModal() {
+            if (!currentUser || !currentUser.modules.includes('agri')) {
+                showNotification('You do not have permission to add fields', 'error');
+                return;
+            }
             document.getElementById('add-field-modal').classList.add('active');
         }
 
@@ -1257,8 +1829,14 @@
         function showNotification(message, type = 'success') {
             const notification = document.getElementById('notification');
             const notificationText = document.getElementById('notification-text');
+            const iconMap = {
+                success: 'fa-check-circle',
+                error: 'fa-times-circle',
+                warning: 'fa-exclamation-triangle'
+            };
             
             notification.className = `notification ${type} show`;
+            notification.querySelector('i').className = `fas ${iconMap[type] || iconMap.success}`;
             notificationText.textContent = message;
             
             setTimeout(() => {
@@ -1353,17 +1931,17 @@
             }).addTo(map);
             
             // Add hospital markers
-            const hospitals = [
-                { name: 'One90ps Health Center Lagos', lat: 6.5244, lng: 3.3792 },
-                { name: 'One90ps Health Center Abuja', lat: 9.0765, lng: 7.3986 },
-                { name: 'One90ps Health Center Port Harcourt', lat: 4.8156, lng: 7.0498 }
-            ];
-            
-            hospitals.forEach(hospital => {
-                L.marker([hospital.lat, hospital.lng])
-                    .addTo(map)
-                    .bindPopup(hospital.name);
-            });
+const hospitals = [
+    { name: 'One90ps Health Center Ouagadougou', lat: 12.3714, lng: -1.5197 },
+    { name: 'One90ps Health Center Bobo-Dioulasso', lat: 11.1784, lng: -4.2979 },
+    { name: 'One90ps Health Center Abidjan', lat: 5.3453, lng: -4.0244 }
+];
+
+hospitals.forEach(hospital => {
+    L.marker([hospital.lat, hospital.lng])
+        .addTo(map)
+        .bindPopup(hospital.name);
+});
         }
 
         function handleAddPatient(event) {
@@ -1494,17 +2072,17 @@
             }).addTo(map);
             
             // Add farm markers
-            const farms = [
-                { name: 'Northern Farm Complex', lat: 10.5222, lng: 7.4383 },
-                { name: 'Eastern Agricultural Zone', lat: 6.4474, lng: 7.4898 },
-                { name: 'Southern Cooperative', lat: 4.9581, lng: 8.3221 }
-            ];
-            
-            farms.forEach(farm => {
-                L.marker([farm.lat, farm.lng])
-                    .addTo(map)
-                    .bindPopup(farm.name);
-            });
+const farms = [
+    { name: 'Burkina Faso - Central Farm', lat: 12.3600, lng: -1.5339 },
+    { name: 'Ivory Coast - Cocoa Zone', lat: 6.8738, lng: -5.2371 },
+    { name: 'Ivory Coast - Northern Fields', lat: 8.4236, lng: -5.0611 }
+];
+
+farms.forEach(farm => {
+    L.marker([farm.lat, farm.lng])
+        .addTo(map)
+        .bindPopup(farm.name);
+});
         }
 
         function handleAddField(event) {
@@ -1533,6 +2111,14 @@
 
         // Navigation Functions
         function navigateHealth(section) {
+            // Check if user has permission for certain sections
+            if (currentUser) {
+                if (section === 'staff' && currentUser.role === 'staff') {
+                    showNotification('Access Denied: Staff members cannot access Staff Management', 'error');
+                    return;
+                }
+            }
+            
             // Update active nav
             document.querySelectorAll('#health-module .nav-item').forEach(item => {
                 item.classList.remove('active');
@@ -1557,6 +2143,7 @@
         // Initialize on load
         window.addEventListener('load', () => {
             initThreeJS();
+            updateAuthUI();
             
             // Close modals on outside click
             document.querySelectorAll('.modal').forEach(modal => {
@@ -1565,6 +2152,13 @@
                         modal.classList.remove('active');
                     }
                 });
+            });
+            
+            // Handle Enter key in login form
+            document.getElementById('login-password').addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    document.querySelector('#login-modal form').dispatchEvent(new Event('submit'));
+                }
             });
         });
 
